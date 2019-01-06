@@ -1,0 +1,81 @@
+﻿<div class="row">
+    <script>
+        function getCoordinates() {
+            var req = new XMLHttpRequest();
+            req.responseType = 'json';
+            req.open('POST', '/api/Triangle/GetCoordinates?row=' + document.getElementById('row').value + '&column=' + document.getElementById('column').value, true);
+                req.send();
+            req.onload = function () {
+                var json = req.response;
+                if (req.status == 200) {
+                    document.getElementById('coordinates').innerHTML = 'Coordinates: ' + JSON.stringify(json);
+                }
+            }
+        }
+
+        function getRowAndColumn() {
+            var req = new XMLHttpRequest();
+            req.open('POST', '/api/Triangle/GetRowColumn', true);
+            req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+            req.send(JSON.stringify({
+                "Vertex1": { "X": document.getElementById('v1X').value, "Y": document.getElementById('v1Y').value },
+                "Vertex2": { "X": document.getElementById('v2X').value, "Y": document.getElementById('v2Y').value },
+                "Vertex3": { "X": document.getElementById('v3X').value, "Y": document.getElementById('v3Y').value }
+            }));
+            req.onload = function () {
+                var json = req.response;
+                if (req.status == 200) {
+                    document.getElementById('rowAndColumn').innerHTML = 'Row & Column: ' + json;
+                }
+            }
+        }
+    </script>
+
+
+
+    <h1>Get Coordinates</h1>
+    <div class="row">
+        Enter Row (A-F)
+        <input id="row" type="text" name="row">
+    </div>
+
+        <div class="row">
+            Enter Column (1-12)
+            <input id="column" type="text" name="column">
+            <div class="row">
+                <button type="submit" onclick="getCoordinates()">Submit</button>
+            </div>
+            <div class="row">
+                <label id="coordinates"></label>
+            </div>
+    </div>    
+</div>
+
+
+<div class="row">
+        <h1>Get Triangle Row and Column</h1>
+        <div>
+        Vertex 1
+        <label>X:</label><input id="v1X" type="text" width="5" name="v1X">
+        <label>Y:</label><input id="v1Y" type="text" width="10" name="v1Y">
+            </div>
+    <div>
+        Vertex 2
+        <label>X:</label><input id="v2X" type="text" width="5" name="v2X">
+        <label>Y:</label><input id="v2Y" type="text" width="10" name="v2Y">
+
+    </div>
+    <div>
+        Vertex 3
+        <label>X:</label><input id="v3X" type="text" width="5" name="v3X">
+        <label>Y:</label><input id="v3Y" type="text" width="10" name="v3Y">
+
+    </div>
+
+    <div>
+        <button type="button" onclick="getRowAndColumn()">Submit</button>
+    </div>
+    <div class="row">
+        <label id="rowAndColumn"></label>
+    </div>
+    </div>
